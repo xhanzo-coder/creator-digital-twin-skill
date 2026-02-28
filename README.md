@@ -8,7 +8,7 @@
 ### 安装
 
 ```bash
-npx skills add <your-org-or-name>/<repo>@creator-digital-twin -y
+npx skills add xhanzo-coder/creator-digital-twin-skill@creator-digital-twin -y
 ```
 
 ### 首次运行
@@ -82,11 +82,17 @@ flowchart TD
 flowchart TD
     B1[接收输入] --> B2{类型识别}
     B2 -->|点子| B3[assets/ideas]
-    B2 -->|概念/金句/案例| B4[assets/concepts|quotes|cases]
-    B2 -->|经历/观点变化| B5[memory/stories|beliefs|timeline]
-    B3 --> B6[更新索引]
-    B4 --> B6
-    B5 --> B6
+    B2 -->|概念| B4[assets/concepts]
+    B2 -->|金句| B5[assets/quotes]
+    B2 -->|案例| B6[assets/cases]
+    B2 -->|经历| B7[memory/stories]
+    B2 -->|观点变化| B8[memory/beliefs + timeline]
+    B3 --> B9[更新索引]
+    B4 --> B9
+    B5 --> B9
+    B6 --> B9
+    B7 --> B9
+    B8 --> B9
 ```
 
 ### 模式 C：平台写作（Platform Writing）
