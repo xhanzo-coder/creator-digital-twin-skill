@@ -1,0 +1,28 @@
+{
+  "blacklist": {
+    "keywords": [
+      "politics", "election", "vote", "senate", "congress",
+      "sports", "football", "basketball", "baseball",
+      "entertainment", "celebrity", "movie star",
+      "DevOps", "Kubernetes", "Docker Swarm", "Ansible",
+      "database admin", "MySQL replication", "Redis cluster",
+      "AI Safety", "AI Ethics", "Alignment", "Existential Risk",
+      "AI Governance", "AI Regulation", "P(doom)", "AI Doom"
+    ]
+  },
+  "whitelist": {
+    "keywords": [
+      "AI", "LLM", "GPT", "Claude", "ChatGPT", "Gemini",
+      "machine learning", "deep learning", "neural network",
+      "transformer", "model release", "new model",
+      "coding", "programming", "developer", "software",
+      "startup", "product launch", "open source",
+      "DeepSeek", "Qwen", "Llama", "Mistral",
+      "Anthropic", "OpenAI", "Google AI", "Meta AI"
+    ]
+  },
+  "rules": {
+    "apply_order": "blacklist_first",
+    "case_sensitive": false
+  }
+}

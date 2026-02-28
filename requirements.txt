@@ -1,0 +1,10 @@
+# Creator Digital Twin v1.0 - Python Dependencies
+# 用户首次使用时会自动检测并提示安装
+
+# 核心依赖（如果脚本需要）
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# 可选：如果需要高级文本分析
+# jieba>=0.42.1  # 中文分词（仅当 analyze_style.py 需要更精确的分词时）

@@ -1,0 +1,125 @@
+{
+  "sources": [
+    {
+      "id": "bensbites",
+      "name": "Ben's Bites",
+      "url": "https://www.bensbites.com/archive",
+      "type": "newsletter_archive",
+      "parser": "bensbites",
+      "enabled": true,
+      "check_interval_hours": 24,
+      "limit": 10
+    },
+    {
+      "id": "tldrai",
+      "name": "TLDR AI",
+      "url": "https://tldr.tech/api/latest/ai",
+      "type": "newsletter",
+      "parser": "tldrai",
+      "enabled": true,
+      "check_interval_hours": 24,
+      "limit": 10
+    },
+    {
+      "id": "importai",
+      "name": "Import AI",
+      "url": "https://importai.substack.com/feed",
+      "type": "newsletter_rss",
+      "parser": "importai",
+      "enabled": true,
+      "check_interval_hours": 168,
+      "limit": 10
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face Papers",
+      "url": "https://huggingface.co/papers",
+      "type": "aggregator",
+      "parser": "huggingface",
+      "enabled": true,
+      "check_interval_hours": 24,
+      "limit": 15,
+      "min_votes": 20
+    },
+    {
+      "id": "hackernews",
+      "name": "Hacker News",
+      "url": "https://news.ycombinator.com/",
+      "type": "aggregator",
+      "parser": "hackernews",
+      "enabled": true,
+      "check_interval_hours": 24,
+      "limit": 10
+    },
+    {
+      "id": "producthunt",
+      "name": "Product Hunt",
+      "url": "https://www.producthunt.com",
+      "type": "aggregator",
+      "parser": "producthunt",
+      "enabled": true,
+      "check_interval_hours": 24,
+      "limit": 10
+    },
+    {
+      "id": "therundown",
+      "name": "The Rundown AI",
+      "url": "https://rss.beehiiv.com/feeds/2R3C6Bt5wj.xml",
+      "type": "newsletter_rss",
+      "parser": "therundown",
+      "enabled": true,
+      "check_interval_hours": 24,
+      "limit": 5
+    },
+    {
+      "id": "theneuron",
+      "name": "The Neuron Daily",
+      "url": "https://rss.beehiiv.com/feeds/N4eCstxvgX.xml",
+      "type": "newsletter_rss",
+      "parser": "theneuron",
+      "enabled": true,
+      "check_interval_hours": 24,
+      "limit": 5
+    },
+    {
+      "id": "oneusefulthing",
+      "name": "One Useful Thing (Ethan Mollick)",
+      "url": "https://www.oneusefulthing.org/feed",
+      "type": "newsletter_rss",
+      "parser": "oneusefulthing",
+      "enabled": true,
+      "check_interval_hours": 24,
+      "limit": 10
+    },
+    {
+      "id": "kdnuggets-ai",
+      "name": "KDnuggets AI",
+      "url": "https://www.kdnuggets.com/tag/artificial-intelligence",
+      "type": "aggregator",
+      "parser": "kdnuggets",
+      "enabled": true,
+      "check_interval_hours": 24,
+      "limit": 10
+    },
+    {
+      "id": "interconnects",
+      "name": "Interconnects (Nathan Lambert)",
+      "url": "https://www.interconnects.ai/feed",
+      "type": "newsletter_rss",
+      "parser": "importai",
+      "enabled": true,
+      "check_interval_hours": 24,
+      "limit": 5
+    },
+    {
+      "id": "nlp-elvis",
+      "name": "NLP Newsletter (Elvis Saravia)",
+      "url": "https://nlp.elvissaravia.com/feed",
+      "type": "newsletter_rss",
+      "parser": "importai",
+      "enabled": true,
+      "check_interval_hours": 168,
+      "limit": 5
+    }
+  ]
+}

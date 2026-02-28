@@ -1,0 +1,33 @@
+{
+  "primary_interests": [
+    "LLM Models",
+    "AI Model Releases",
+    "Coding Models",
+    "Multimodal AI",
+    "Vision Models",
+    "AI Company News",
+    "Hot AI Papers",
+    "AI Tools",
+    "Developer Tools",
+    "AI Coding Assistants",
+    "Open Source AI Projects"
+  ],
+  "secondary_interests": [
+    "Programming Tools",
+    "IDE Features",
+    "AI Startups",
+    "Tech Industry News",
+    "Research Trends",
+    "Model Benchmarks"
+  ],
+  "excluded_topics": [
+    "DevOps",
+    "Infrastructure",
+    "Network",
+    "Database Administration",
+    "AI Safety",
+    "AI Ethics",
+    "Politics",
+    "Sports"
+  ]
+}
