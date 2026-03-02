@@ -1,84 +1,54 @@
-# 模式 B：资产管理模式 (Asset)
+# 模式 B：资产与记忆管理 (Asset & Memory Co-creation)
 
-**触发条件**：
-- 用户说"记个点子"、"存个金句"、"有个想法"
+**定位**：数字分身的“外挂大脑”。不再是被动记录，而是通过“灵感对撞”将碎片点子转化为结构化资产。
 
-## v4 目标
+## Step 1: 灵感接收与全库扫描 (Multi-dimensional Scanning)
 
-模式 B 在 v4 不再只是“记点子”，而是统一管理三类沉淀：
+当你提供一个想法、点子、金句或一段经历时，系统立即启动**背景关联检查**：
 
-1. **内容资产**：ideas / concepts / quotes / cases
-2. **长期记忆**：timeline / stories / beliefs
-3. **创作证据**：素材来源、验证状态、复用历史
+### 1. 维度 A：历史内容关联 (Contextual Search)
+- **扫描路径**：`./.writing-style/content/published/`
+- **逻辑**：寻找相似的主题或观点，提醒你：“你曾在 [日期] 写过类似内容，是延续还是更新？”
 
-## 用途 1：保存选题灵感（assets）
+### 2. 维度 B：冷启动策略关联 (Cold Start Strategy)
+- **扫描路径**：`./.writing-style/assets/strategies/` 或 `./.writing-style/system/profile.json`
+- **逻辑**：若无历史文章，则调用你学习过的方法论（如 `dontbesilent` 框架）或你的人设边界（`stance_topics.json`）。
+- **反馈示例**： “这个想法非常符合你主张的‘AI 提效’人设。按照你存过的‘爆款文稿库’结构，这个点子可以作为‘反直觉切入点’。”
 
-```bash
-# 示例：用户说 "记个点子：GPT-5 对内容创作的影响"
-```
+### 3. 维度 C：实时情报对冲 (News Pulse)
+- **扫描路径**：`./.writing-style/news_sources/`
+- **逻辑**：检索最近 7 天的爆款新闻。
+- **反馈示例**： “你这个关于‘数字员工’的想法，正好呼应了昨天那条关于 GPT-5 Agent 能力的新闻，建议结合起来做一次‘深度点评’。”
 
-**执行步骤**：
-1. 提取灵感核心要点
-2. 写入 `./.writing-style/assets/ideas/ideas.json`：
+---
 
-```json
-{
-  "id": "idea_001",
-  "title": "GPT-5 对内容创作的影响",
-  "source": "AI新闻推荐",
-  "status": "待深化",
-  "created_at": "2026-02-06"
-}
-```
+## Step 2: 探讨式共创 (Co-creation Dialogue)
 
-## 用途 2：管理知识资产库（assets）
+系统不应只回复“已记录”，而应提供 **2-3 个深化建议**：
+1. **角度拆解**：这个点子可以发小红书（教程向）还是 X（观点向）？
+2. **素材补全**：询问用户是否需要调用已有的“金句库”或“案例库”来填充这个点子。
+3. **任务转化**：询问“是否直接生成初步大纲？”
 
-### 场景 1：手动添加概念
+---
 
-```bash
-# 用户：存个概念 - "思维链提示：通过分步推理提升 LLM 输出质量"
-```
-- 写入 `assets/concepts/prompting.json`
+## Step 3: 隐式记录与资产固化 (Implicit Capture)
 
-### 场景 2：手动添加金句
+在探讨过程中，系统自动识别并格式化以下资产：
 
-```bash
-# 用户：存个金句 - "AI 不会取代你，但会 AI 的人会"
-```
-- 写入 `assets/quotes/ai_quotes.json`
+| 资产类型 | 存放路径 | 判定标准 |
+| :--- | :--- | :--- |
+| **点子 (Ideas)** | `assets/ideas/` | 尚未成熟的选题、灵感片段、未来计划 |
+| **概念 (Concepts)** | `assets/concepts/` | 你独特的定义、方法论名词（如“生产型兴趣”） |
+| **金句 (Quotes)** | `assets/quotes/` | 具有穿透力的短句、对话中蹦出的精彩表达 |
+| **案例 (Cases)** | `assets/cases/` | 具体的例子、调研数据、成功/失败的事实 |
+| **经历 (Stories)** | `memory/stories.jsonl` | 你的个人故事、情绪、具体发生的事件 |
+| **观点 (Beliefs)** | `memory/beliefs.json` | 价值观的声明、对某事的深度看法 |
 
-## 用途 3：沉淀个人记忆（memory）
+**👉 确认逻辑**：对话结束前，系统汇总准备记录的项目，用户回复“确认”或“好”后正式写入 JSONL。
 
-### 场景 1：记录真实经历（stories）
+---
 
-```bash
-# 用户：记一下，我 3 个月把公众号从 800 做到 2 万
-```
+## Step 4: 更新索引与关联 (Indexing)
 
-- 以结构化条目写入 `memory/stories.jsonl`
-- 记录字段：时间、场景、动作、结果、可复用教训
-
-### 场景 2：记录观点变化（beliefs/timeline）
-
-```bash
-# 用户：我现在不再相信“多平台同时做”这件事
-```
-
-- 更新 `memory/beliefs.json`
-- 追加到 `memory/timeline.jsonl`，保留“观点变化轨迹”
-
-## 资产检索与复用
-
-在平台写作模式（Mode C）中，系统会自动检索资产库：
-
-```bash
-# 示例：用户选题 "AI Agent 的应用场景"
-# 检索操作
-grep -r "AI Agent" .writing-style/assets/concepts/
-grep -r "Agent" .writing-style/assets/quotes/
-grep -r "Agent" .writing-style/memory/stories.jsonl
-```
-
-**若发现相关资产**：
-- 主动提示："发现你之前定义过 'AI Agent' 概念，是否复用？"
-- 展示既有定义/金句/个人故事，询问是否融入本次写作
+写入后，自动更新 `assets/index.json`。
+如果该点子关联了某条新闻，在 `metadata` 中记录 `news_hash`，实现“情报与灵感”的强绑定。
