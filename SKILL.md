@@ -129,6 +129,7 @@ fi
 | 5 | 用户提供修改后的文章 | **模式 F：实时学习** | [mode-f-realtime.md](references/modes/mode-f-realtime.md) |
 | 6 | "学习这个方法论"、提供外部材料链接 | **模式 G：外部材料学习** | [mode-g-external.md](references/modes/mode-g-external.md) |
 | 7 | "改写这篇文章"、"包装成我的"、"转发"、提供别人的文章/链接 | **模式 H：内容改写包装** | [mode-h-rewrite.md](references/modes/mode-h-rewrite.md) |
+| 8 | "发了小红书"、"更新数据"、"复盘一下"、"这是发布链接" | **模式 I：发布追踪与数据进化** | 记录各平台发布表现，反向提炼爆款策略并存入 [mode-i-analytics.md](references/modes/mode-i-analytics.md) |
 
 ---
 
