@@ -123,7 +123,7 @@ fi
 |--------|----------------|----------|----------|
 | 0 | "学习我的风格"、"分析这篇文章"、提供文件夹路径 | **模式 E：风格学习** | [mode-e-learning.md](references/modes/mode-e-learning.md) |
 | 1 | "记个点子"、"存个金句"、"有个想法" | **模式 B：资产管理** | [mode-b-asset.md](references/modes/mode-b-asset.md) |
-| 2 | "今天有什么AI新闻"、"推荐资讯" | **模式 A：AI新闻推荐** | [mode-a-news.md](references/modes/mode-a-news.md) |
+| 2 | "今天有什么AI新闻"、"推荐资讯" | **模式 A：AI新闻推荐** | 必须严格按 [mode-a-news.md](references/modes/mode-a-news.md) 的“情报简报”格式输出 |
 | 3 | "发小红书"、"发Twitter"、"写公众号" | **模式 C：平台写作** | [mode-c-platform.md](references/modes/mode-c-platform.md) |
 | 4 | "随便写点"、"自由发挥" | **模式 D：自由创作** | [mode-d-free.md](references/modes/mode-d-free.md) |
 | 5 | 用户提供修改后的文章 | **模式 F：实时学习** | [mode-f-realtime.md](references/modes/mode-f-realtime.md) |
