@@ -14,3 +14,4 @@
 10. **KDnuggets AI** - AI技术文章
 11. **Interconnects** - AI研究前沿
 12. **NLP Newsletter** - NLP专题
+13. **橘鸦AI早报 (Juya AI Daily)** - [RSS](https://imjuya.github.io/juya-ai-daily/rss.xml) AI行业动态与开发者早报

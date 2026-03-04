@@ -121,76 +121,29 @@ fi
 
 | 优先级 | 触发关键词示例 | 跳转模式 | 参考文档 |
 |--------|----------------|----------|----------|
-| 0 | "学习我的风格"、"分析这篇文章"、提供文件夹路径 | **模式 E：风格学习** | [mode-e-learning.md](references/modes/mode-e-learning.md) |
-| 1 | "记个点子"、"存个金句"、"有个想法"、随口丢出的灵感 | **模式 B：资产管理与共创** | 主动检索历史/策略/新闻进行灵感对撞，隐式捕捉金句、概念并存入 [mode-b-asset.md](references/modes/mode-b-asset.md) |
+| 0 | "学习我的风格"、"分析这篇文章"、提供文件夹路径 | **模式 E：数据驱动风格学习** | 引入模式 I 数据加权，执行“三层解析”并自动生成创作策略 [mode-e-learning.md](references/modes/mode-e-learning.md) |
+| 1 | "记个点子"、"存个金句"、"这是我改后的版本" | **模式 B：资产管理与共创** | 主动检索历史/策略/新闻进行灵感对撞；**整合模式 F**：捕捉实时修改偏好 [mode-b-asset.md](references/modes/mode-b-asset.md) |
 | 2 | "今天有什么AI新闻"、"推荐资讯" | **模式 A：AI新闻推荐** | 必须严格按 [mode-a-news.md](references/modes/mode-a-news.md) 的“情报简报”格式输出 |
 | 3 | "发小红书"、"发Twitter"、"写公众号" | **模式 C：平台策略写作** | 强制执行策略对标、全网痛点挖掘及“五遍质量检查流” [mode-c-platform.md](references/modes/mode-c-platform.md) |
-| 4 | "随便写点"、"自由发挥" | **模式 D：自由创作** | [mode-d-free.md](references/modes/mode-d-free.md) |
-| 5 | 用户提供修改后的文章 | **模式 F：实时学习** | [mode-f-realtime.md](references/modes/mode-f-realtime.md) |
-| 6 | "学习这个方法论"、提供外部材料链接 | **模式 G：外部材料学习** | [mode-g-external.md](references/modes/mode-g-external.md) |
-| 7 | "改写这篇文章"、"包装成我的"、"转发"、提供别人的文章/链接 | **模式 H：内容改写包装** | [mode-h-rewrite.md](references/modes/mode-h-rewrite.md) |
-| 8 | "发了小红书"、"更新数据"、"复盘一下"、"这是发布链接" | **模式 I：发布追踪与数据进化** | 记录各平台发布表现，反向提炼爆款策略并存入 [mode-i-analytics.md](references/modes/mode-i-analytics.md) |
+| 4 | "理一下"、"整理一下"、"头脑风暴"、"随便写点" | **模式 D：头脑风暴与灵魂随笔** | 扮演头脑风暴伙伴，帮助整理碎片灵感并提供选题建议，详见 [mode-d-free.md](references/modes/mode-d-free.md) |
+| 5 | "学习这个方法论"、"拆解一下这个博主"、提供外部材料链接 | **模式 G：对标拆解与策略内化** | 逆向解剖外部内容，生成可复用的创作框架并存入 [mode-g-external.md](references/modes/mode-g-external.md) |
+| 6 | "改写这篇文章"、"包装成我的"、"转发"、提供别人的文章/链接 | **模式 H：内容改写与多维重塑** | 引入“4:6 黄金重塑比”，强制个人资产注入，实现合规二次创作 [mode-h-rewrite.md](references/modes/mode-h-rewrite.md) |
+| 7 | "发了小红书"、"更新数据"、"复盘一下"、"这是发布链接" | **模式 I：发布追踪与数据进化** | 记录各平台发布表现，反向提炼爆款策略并存入 [mode-i-analytics.md](references/modes/mode-i-analytics.md) |
 
 ---
 
 ## 模式执行快速指南
 
-### 模式 A：AI新闻推荐 (Radar)
-
-1. 执行 `python scripts/fetch_news.py` 抓取新闻
-2. 按用户赛道/价值观/内容缺口做选题过滤
-3. 生成“可创作选题包”并展示
-4. 用户可选择查看详情或创作转化
-
-📖 **完整流程**：[references/modes/mode-a-news.md](references/modes/mode-a-news.md)
+...
 
 ---
 
-### 模式 B：资产管理 (Asset)
+### 模式 D：头脑风暴与灵魂随笔 (Brainstorming & Soul Flow)
 
-**用途 1**：保存选题灵感到 `assets/ideas/ideas.json`
-**用途 2**：沉淀概念/金句/案例到 `assets/`
-**用途 3**：沉淀长期记忆到 `memory/`
-
-📖 **完整流程**：[references/modes/mode-b-asset.md](references/modes/mode-b-asset.md)
-
----
-
-### 模式 C：平台写作 (Platform)
-
-**核心步骤**：
-
-1. **输入类型判断**：
-   - 只有选题 → **路径 1：选题写作**
-   - 包含大纲 → **路径 2：框架写作**
-
-2. **路径 1：选题写作流程**
-   - Step 1: 资产自检（检索 assets）
-   - Step 2: 阶梯式调研（本地 → 全网）
-   - Step 3: 生成 3 个写作角度（🔴 融入用户风格）
-   - Step 4: 平台规则注入 + 专项流程
-
-3. **路径 2：框架写作流程**
-   - Step 1: 冲突预警检查
-   - Step 2: 精准素材补全
-   - Step 3: 用户确认后执行
-
-4. **质量控制**：四遍检查机制
-   - Pass 1: 初稿生成
-   - Pass 2: 事实核查
-   - Pass 3: 风格克隆（🔴 强制展示修改过程）
-   - Pass 4: 平台规范检查
-
-📖 **完整流程**：[references/modes/mode-c-platform.md](references/modes/mode-c-platform.md)
-📖 **质量控制详解**：[references/quality-control.md](references/quality-control.md)
-
----
-
-### 模式 D：自由创作 (Free)
-
-- 检查人格状态，加载对应风格
-- 不执行平台硬性规则，但执行人格边界检查
-- 仅执行 Pass 3（风格克隆）
+1. **Step 0 头脑风暴**：对混乱输入进行分类（观点/痛点/素材），给出洞察建议并引导选题。
+2. **Step 1-2 情绪与记忆**：加载情绪，唤醒 `memory/` 中的相关经历。
+3. **Step 3 灵魂检查流**：执行 Pass 1-3，重点展示风格克隆的去 AI 化过程。
+4. **Step 4 资产流转**：提取金句存入模式 B 或转化为模式 C 正式稿。
 
 📖 **完整流程**：[references/modes/mode-d-free.md](references/modes/mode-d-free.md)
 
@@ -198,31 +151,12 @@ fi
 
 ### 模式 E：风格学习 (Style Learning)
 
-**识别输入类型**：
-- 文件夹路径 → 批量学习模式（推荐 3-5 篇）
-- 单篇文章 → 单篇学习模式
-
-**执行流程**：
-1. 文章分析与风格提取
-2. 更新风格档案（首次 or 增量）
-3. 展示新发现的风格特征
-4. 用户确认后更新 `system/profile.json`
+1. **Step 1 数据加权**：扫描 `performance.jsonl`，将文章分为爆款组、基准组和低分组进行差异化学习。
+2. **Step 2 三层解析**：深度扫描“语言、策略、灵魂”三个层级，识别标题逻辑、钩子与立场。
+3. **Step 3 对标验证**：现场演示“去 AI 化”改写，由用户确认风格匹配度。
+4. **Step 4 策略同步**：将提取的成功框架自动归档至 `assets/strategies/`。
 
 📖 **完整流程**：[references/modes/mode-e-learning.md](references/modes/mode-e-learning.md)
-
----
-
-### 模式 F：实时学习 (Real-time Learning)
-
-**触发条件**：用户提供 AI 原文 + 修改后的版本
-
-**执行流程**：
-1. 使用 diff 工具对比分析
-2. 提取学习要点（词汇替换、句式调整等）
-3. 展示修改分析报告
-4. 更新 `system/profile.json` 的 `learned_from_edits`
-
-📖 **完整流程**：[references/modes/mode-f-realtime.md](references/modes/mode-f-realtime.md)
 
 ---
 
@@ -268,6 +202,24 @@ fi
 
 5. **归档与反馈**
 
+### 模式 G：对标拆解与策略内化 (Benchmark & Scaling)
+
+1. **Step 1 身份判别**：识别是“自己写的”还是“别人写的”，决定是更新档案还是拆解策略。
+2. **Step 2 三层解剖**：深度逆向标题/钩子、逻辑骨架及独特技巧。
+3. **Step 3 兼容评估**：基于 `stance_topics.json` 对拆解出的策略进行价值观匹配评分。
+4. **Step 4 策略归档**：将结构化大纲生成为 `.md` 策略文件，并存入 `assets/strategies/`。
+
+📖 **完整流程**：[references/modes/mode-g-external.md](references/modes/mode-g-external.md)
+
+---
+
+### 模式 H：内容改写与多维重塑 (Content Rewrite & Repackage)
+
+1. **Step 1 版权与伦理确认**：明确重构程度（致敬转发 vs. 去痕重塑），提示版权风险。
+2. **Step 2 信息分层提取**：拆解原文事实、观点与逻辑框架。
+3. **Step 3 个人资产注入**：从 `assets/` 和 `memory/` 中强制检索并注入你的案例、故事与金句。
+4. **Step 4 多平台重构**：按照 4:6 比例生成具有高度个人属性的平台文案，并执行六遍检查（含原创度预估）。
+
 📖 **完整流程**：[references/modes/mode-h-rewrite.md](references/modes/mode-h-rewrite.md)
 
 ---
@@ -291,15 +243,15 @@ fi
    ↓
 Step 0.5: 风格学习（建立 system/profile.json）
    ↓
-平台写作（应用风格）
+模式 G: 对标拆解（建立资产策略库）
    ↓
-Pass 3: 展示修改（用户看到风格克隆过程）
+平台写作（应用策略与风格）
    ↓
 用户修改文章
    ↓
-模式 F: 实时学习（更新 learned_from_edits）
+模式 B: 实时学习（捕捉修改偏好）
    ↓
-发布文章
+发布文章 (模式 I)
    ↓
 进化引擎（提取新资产）
    ↓
