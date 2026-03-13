@@ -166,30 +166,31 @@ def analyze_style(data_dir):
     return profile
 
 def main():
-    data_dir = sys.argv[1] if len(sys.argv) > 1 else str(Path.home() / '.writing-style')
+    data_dir = sys.argv[1] if len(sys.argv) > 1 else str(Path.home() / '.creator-space')
     data_dir = Path(data_dir).expanduser()
-    
+
     print("================================")
     print("写作风格分析工具")
     print("================================")
     print()
-    
-    if not (data_dir / 'articles').exists():
-        print(f"❌ 错误: {data_dir / 'articles'} 目录不存在")
-        print(f"请先运行: bash scripts/init.sh")
+
+    # 检查目录结构 (v4)
+    if not (data_dir / 'system').exists():
+        print(f"❌ 错误: {data_dir} 不是有效的 creator-space 目录")
+        print(f"请先运行: python scripts/setup.py")
         sys.exit(1)
-    
+
     # 分析风格
     profile = analyze_style(data_dir)
-    
+
     if not profile:
         sys.exit(1)
-    
-    # 保存 profile.json
-    profile_path = data_dir / 'profile.json'
+
+    # 保存 profile.json 到 system 目录
+    profile_path = data_dir / 'system' / 'profile.json'
     with open(profile_path, 'w', encoding='utf-8') as f:
         json.dump(profile, f, ensure_ascii=False, indent=2)
-    
+
     print()
     print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     print("✅ 风格分析完成！")

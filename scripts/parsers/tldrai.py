@@ -6,6 +6,7 @@ TLDR AI Newsletter 解析器
 import re
 import sys
 from pathlib import Path
+from datetime import datetime
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "shared"))
 from web_utils import fetch_html
@@ -21,6 +22,12 @@ def parse_tldrai(source):
     if not html:
         return articles
 
+    # 尝试从页面提取日期
+    published_at = None
+    date_match = re.search(r'(\d{4}-\d{2}-\d{2})', html)
+    if date_match:
+        published_at = date_match.group(1)
+
     try:
         # 提取文章标题和链接
         # 格式：<a class="font-bold" href="URL" target="_blank" rel="noopener noreferrer"><h3>TITLE</h3></a>
@@ -35,11 +42,14 @@ def parse_tldrai(source):
             for url, title in matches[:5]:  # 取前5条头条
                 # 清理 HTML 实体
                 title = title.replace('&amp;', '&').replace('&#x27;', "'")
-                articles.append({
+                article = {
                     "url": url,
                     "title": title,
                     "summary": "TLDR AI 每日速览"
-                })
+                }
+                if published_at:
+                    article["published_at"] = published_at
+                articles.append(article)
 
         # 方法2：提取 Engineering & Research 部分
         research_match = re.search(r'Engineering &amp; Research</h3></header>(.*?)</section>', html, re.DOTALL)
@@ -50,11 +60,14 @@ def parse_tldrai(source):
 
             for url, title in matches[:3]:  # 取前3条研究
                 title = title.replace('&amp;', '&').replace('&#x27;', "'")
-                articles.append({
+                article = {
                     "url": url,
                     "title": title,
                     "summary": "AI 工程与研究"
-                })
+                }
+                if published_at:
+                    article["published_at"] = published_at
+                articles.append(article)
 
         # 如果上面两种方法都失败，用通用方法抓所有文章链接
         if not articles:
@@ -67,11 +80,14 @@ def parse_tldrai(source):
                     continue
 
                 title = title.replace('&amp;', '&').replace('&#x27;', "'").replace('&quot;', '"')
-                articles.append({
+                article = {
                     "url": url,
                     "title": title,
                     "summary": "TLDR AI 文章"
-                })
+                }
+                if published_at:
+                    article["published_at"] = published_at
+                articles.append(article)
 
     except Exception as e:
         print(f"  ⚠️  TLDR AI 解析错误: {e}", file=sys.stderr)

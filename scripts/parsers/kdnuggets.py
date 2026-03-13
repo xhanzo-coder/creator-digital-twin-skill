@@ -7,6 +7,7 @@ KDnuggets 标签页文章解析器
 import re
 import sys
 from pathlib import Path
+from datetime import datetime
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "shared"))
 from web_utils import fetch_html
@@ -53,7 +54,7 @@ def parse_kdnuggets(source):
 
     for url, title in matches:
         # 跳过非文章链接
-        if any(x in url.lower() for x in ['/tag/', '/tags/', '/author/', '/about', '/contact', '/newsletter', '/advertise', 'privacy', 'terms', '/recommends', '/kdnuggets-']):
+        if any(x in url.lower() for x in ['/tag/', '/tags/', '/author/', '/about', '/contact', '/newsletter', '/advertise', 'privacy', 'terms', '/recommends', '/kdnuggets- ']):
             continue
 
         # 跳过太短的标题（可能是导航链接）
@@ -70,13 +71,22 @@ def parse_kdnuggets(source):
         if not url.startswith('http'):
             url = f"https://www.kdnuggets.com{url}"
 
+        # 从 URL 提取发布日期
+        published_at = None
+        date_match = re.search(r'/(\d{4})/(\d{2})/', url)
+        if date_match:
+            published_at = f"{date_match.group(1)}-{date_match.group(2)}"
+
         if url not in seen_urls:
             seen_urls.add(url)
-            articles.append({
+            article = {
                 "url": url,
                 "title": title,
                 "summary": "KDnuggets AI"
-            })
+            }
+            if published_at:
+                article["published_at"] = published_at
+            articles.append(article)
 
             if len(articles) >= limit:
                 break

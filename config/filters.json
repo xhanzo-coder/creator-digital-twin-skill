@@ -6,8 +6,7 @@
       "entertainment", "celebrity", "movie star",
       "DevOps", "Kubernetes", "Docker Swarm", "Ansible",
       "database admin", "MySQL replication", "Redis cluster",
-      "AI Safety", "AI Ethics", "Alignment", "Existential Risk",
-      "AI Governance", "AI Regulation", "P(doom)", "AI Doom"
+      "Existential Risk", "P(doom)", "AI Doom", "doomer", "accelerationism"
     ]
   },
   "whitelist": {
@@ -18,7 +17,8 @@
       "coding", "programming", "developer", "software",
       "startup", "product launch", "open source",
       "DeepSeek", "Qwen", "Llama", "Mistral",
-      "Anthropic", "OpenAI", "Google AI", "Meta AI"
+      "Anthropic", "OpenAI", "Google AI", "Meta AI",
+      "Cursor", "Claude Code", "AI tools", "agent"
     ]
   },
   "rules": {

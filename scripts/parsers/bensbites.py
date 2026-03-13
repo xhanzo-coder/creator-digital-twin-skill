@@ -7,6 +7,7 @@ Ben's Bites Newsletter 解析器
 import re
 import sys
 from pathlib import Path
+from datetime import datetime
 
 # ========================================
 # ASCII: Simple is better than complex
@@ -47,13 +48,13 @@ def parse_bensbites(source):
         # 解析 RSS/Atom feed
         # ========================================
 
-        # 尝试 RSS 2.0 格式: <item><title>...</title><link>...</link></item>
-        rss_pattern = r'<item>.*?<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</title>.*?<link>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</link>.*?(?:<description>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</description>)?.*?</item>'
+        # 尝试 RSS 2.0 格式: <item><title>...</title><link>...</link><pubDate>...</pubDate></item>
+        rss_pattern = r'<item>.*?<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</title>.*?<link>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</link>.*?(?:<pubDate>(.*?)</pubDate>)?.*?(?:<description>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</description>)?.*?</item>'
         rss_matches = re.findall(rss_pattern, xml_content, re.DOTALL)
 
         if rss_matches:
             # RSS 格式解析
-            for title, link, description in rss_matches[:10]:
+            for title, link, pubdate, description in rss_matches[:10]:
                 # 清理 HTML 标签和实体
                 title = re.sub(r'<[^>]+>', '', title).strip()
                 title = title.replace('&amp;', '&').replace('&#x27;', "'").replace('&quot;', '"')
@@ -65,17 +66,37 @@ def parse_bensbites(source):
                 else:
                     summary = "Ben's Bites - AI 行业动态与创业洞察"
 
-                articles.append({
+                # 提取发布日期
+                published_at = None
+                if pubdate:
+                    try:
+                        # RSS pubDate 格式: Wed, 05 Mar 2026 09:00:00 GMT
+                        pubdate = pubdate.strip()
+                        # 尝试多种格式
+                        for fmt in ["%a, %d %b %Y %H:%M:%S %Z", "%a, %d %b %Y %H:%M:%S %z"]:
+                            try:
+                                pub_dt = datetime.strptime(pubdate, fmt)
+                                published_at = pub_dt.strftime("%Y-%m-%d")
+                                break
+                            except:
+                                continue
+                    except:
+                        pass
+
+                article = {
                     "url": link,
                     "title": title,
                     "summary": summary
-                })
+                }
+                if published_at:
+                    article["published_at"] = published_at
+                articles.append(article)
         else:
-            # 尝试 Atom 格式: <entry><title>...</title><link href="..."/></entry>
-            atom_pattern = r'<entry>.*?<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</title>.*?<link[^>]*href=["\']([^"\']+)["\'].*?(?:<summary>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</summary>)?.*?</entry>'
+            # 尝试 Atom 格式: <entry><title>...</title><link href="..."/><published>...</published></entry>
+            atom_pattern = r'<entry>.*?<title>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</title>.*?<link[^>]*href=["\']([^"\']+)["\'].*?(?:<published>(.*?)</published>)?.*?(?:<summary>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</summary>)?.*?</entry>'
             atom_matches = re.findall(atom_pattern, xml_content, re.DOTALL)
 
-            for title, link, summary_text in atom_matches[:10]:
+            for title, link, published, summary_text in atom_matches[:10]:
                 title = re.sub(r'<[^>]+>', '', title).strip()
                 title = title.replace('&amp;', '&').replace('&#x27;', "'").replace('&quot;', '"')
                 link = link.strip()
@@ -85,11 +106,25 @@ def parse_bensbites(source):
                 else:
                     summary = "Ben's Bites - AI 行业动态与创业洞察"
 
-                articles.append({
+                # 提取发布日期
+                published_at = None
+                if published:
+                    try:
+                        # ISO 8601 格式: 2026-03-05T09:00:00Z
+                        published = published.strip()
+                        pub_dt = datetime.fromisoformat(published.replace('Z', '+00:00'))
+                        published_at = pub_dt.strftime("%Y-%m-%d")
+                    except:
+                        pass
+
+                article = {
                     "url": link,
                     "title": title,
                     "summary": summary
-                })
+                }
+                if published_at:
+                    article["published_at"] = published_at
+                articles.append(article)
 
         if not articles:
             print(f"  ⚠️  Ben's Bites feed 解析失败，未找到文章", file=sys.stderr)

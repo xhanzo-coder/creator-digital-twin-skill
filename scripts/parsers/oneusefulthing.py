@@ -8,6 +8,7 @@ import re
 import sys
 from pathlib import Path
 import xml.etree.ElementTree as ET
+from datetime import datetime
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "shared"))
 from web_utils import fetch_html
@@ -37,6 +38,7 @@ def parse_oneusefulthing(source):
             title_elem = item.find('title')
             link_elem = item.find('link')
             desc_elem = item.find('description')
+            pubdate_elem = item.find('pubDate')
 
             if title_elem is not None and link_elem is not None:
                 title = title_elem.text.strip() if title_elem.text else "One Useful Thing Article"
@@ -48,12 +50,29 @@ def parse_oneusefulthing(source):
                     # 简单去除 HTML 标签，取前 200 字符
                     summary = re.sub(r'<[^>]+>', '', desc_elem.text)[:200]
 
+                # 提取发布日期
+                published_at = None
+                if pubdate_elem is not None and pubdate_elem.text:
+                    try:
+                        # Substack pubDate 格式: Wed, 05 Mar 2026 09:00:00 GMT
+                        pub_dt = datetime.strptime(pubdate_elem.text.strip(), "%a, %d %b %Y %H:%M:%S %Z")
+                        published_at = pub_dt.strftime("%Y-%m-%d")
+                    except:
+                        try:
+                            pub_dt = datetime.strptime(pubdate_elem.text.strip(), "%a, %d %b %Y %H:%M:%S %z")
+                            published_at = pub_dt.strftime("%Y-%m-%d")
+                        except:
+                            pass
+
                 if url:
-                    articles.append({
+                    article = {
                         "url": url,
                         "title": title,
                         "summary": summary if summary else "Ethan Mollick 关于 AI 应用的深度思考"
-                    })
+                    }
+                    if published_at:
+                        article["published_at"] = published_at
+                    articles.append(article)
 
     except ET.ParseError as e:
         print(f"  ⚠️  XML 解析失败: {e}", file=sys.stderr)

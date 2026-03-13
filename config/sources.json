@@ -8,7 +8,7 @@
       "parser": "bensbites",
       "enabled": true,
       "check_interval_hours": 24,
-      "limit": 10
+      "limit": 15
     },
     {
       "id": "tldrai",
@@ -18,7 +18,7 @@
       "parser": "tldrai",
       "enabled": true,
       "check_interval_hours": 24,
-      "limit": 10
+      "limit": 15
     },
     {
       "id": "importai",
@@ -49,7 +49,7 @@
       "parser": "hackernews",
       "enabled": true,
       "check_interval_hours": 24,
-      "limit": 10
+      "limit": 15
     },
     {
       "id": "producthunt",
@@ -59,7 +59,7 @@
       "parser": "producthunt",
       "enabled": true,
       "check_interval_hours": 24,
-      "limit": 10
+      "limit": 15
     },
     {
       "id": "therundown",
@@ -69,7 +69,7 @@
       "parser": "therundown",
       "enabled": true,
       "check_interval_hours": 24,
-      "limit": 5
+      "limit": 10
     },
     {
       "id": "theneuron",
@@ -79,7 +79,7 @@
       "parser": "theneuron",
       "enabled": true,
       "check_interval_hours": 24,
-      "limit": 5
+      "limit": 10
     },
     {
       "id": "oneusefulthing",
@@ -99,7 +99,7 @@
       "parser": "kdnuggets",
       "enabled": true,
       "check_interval_hours": 24,
-      "limit": 10
+      "limit": 15
     },
     {
       "id": "interconnects",
@@ -109,7 +109,7 @@
       "parser": "importai",
       "enabled": true,
       "check_interval_hours": 24,
-      "limit": 5
+      "limit": 10
     },
     {
       "id": "nlp-elvis",
@@ -119,7 +119,17 @@
       "parser": "importai",
       "enabled": true,
       "check_interval_hours": 168,
-      "limit": 5
+      "limit": 10
+    },
+    {
+      "id": "juya",
+      "name": "橘鸦AI早报",
+      "url": "https://imjuya.github.io/juya-ai-daily/rss.xml",
+      "type": "newsletter_rss",
+      "parser": "juya",
+      "enabled": true,
+      "check_interval_hours": 24,
+      "limit": 10
     }
   ]
 }

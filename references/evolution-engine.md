@@ -134,15 +134,19 @@
 **执行步骤**：
 
 1. 识别为风格偏好变更
-2. 更新 `system/profile.json`：
+2. 更新 `persona/do_dont_say.json`：
 
 ```json
 {
-  "learned_from_edits": {
-    "vocabulary_corrections": [
-      {"avoid": "你想想看", "prefer": "想一下", "updated_at": "2026-02-06"}
-    ]
-  }
+  "do": ["使用\"想一下\""],
+  "dont": ["使用\"你想想看\""],
+  "learning_history": [
+    {
+      "date": "2026-02-06",
+      "source": "user_correction",
+      "learned": ["用\"想一下\"替代\"你想想看\""]
+    }
+  ]
 }
 ```
 
@@ -160,21 +164,17 @@
 ```
 首次使用
    ↓
-Step 0.5: 风格学习（建立 profile.json）
+模式 E: 风格学习（建立 profile.json）
    ↓
-平台写作（应用风格）
+模式 G: 对标拆解（建立策略库）
    ↓
-Pass 3: 展示修改（用户看到风格克隆过程）
+模式 C/D/H: 创作输出（应用策略与风格）
    ↓
-用户修改文章
+模式 B: 实时学习（通过用户修改微调偏好）
    ↓
-模式 F: 实时学习（更新 learned_from_edits）
+模式 I: 发布复盘（记录数据，逆向爆款特征）
    ↓
-发布文章
-   ↓
-进化引擎（提取新资产）
-   ↓
-下次写作更精准（复用资产库）
+策略库自动更新 -> 下次创作更精准
    ↓
 循环...
 ```

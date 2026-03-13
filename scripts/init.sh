@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-BASE_DIR="./.writing-style"
+BASE_DIR="./.creator-space"
 
 echo "🚀 初始化 Creator Digital Twin v1.0 ..."
 
@@ -19,6 +19,7 @@ mkdir -p "$BASE_DIR/assets/ideas"
 mkdir -p "$BASE_DIR/assets/concepts"
 mkdir -p "$BASE_DIR/assets/quotes"
 mkdir -p "$BASE_DIR/assets/cases"
+mkdir -p "$BASE_DIR/assets/strategies"
 mkdir -p "$BASE_DIR/analytics/reviews"
 mkdir -p "$BASE_DIR/news_sources/daily"
 mkdir -p "$BASE_DIR/news_sources/recommendations"

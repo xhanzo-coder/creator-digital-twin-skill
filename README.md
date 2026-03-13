@@ -1,331 +1,252 @@
-# creator-digital-twin
+# Creator Digital Twin
 
-个人创作数字分身技能（v1.0）。  
-目标是把你的创作变成一个长期可进化系统：会写、会学、会记、会复盘。
+> 个人创作数字分身系统 - 让每一篇创作都成为系统的燃料
 
-## 1. 快速开始
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## 简介
+
+Creator Digital Twin 是一个运行在 Claude Code / Codex / Gemini CLI 中的智能创作助手，帮助你：
+
+- **追踪 AI 新闻** - 多源聚合、热度感知、智能推荐
+- **学习你的风格** - 数据驱动、增量进化、偏好捕捉
+- **策略化写作** - 小红书/公众号/X 平台适配、5-Pass 质量检查
+- **闭环进化** - 发布复盘、爆款分析、策略迭代
+
+## 核心功能
+
+### 🧭 模式 A：新闻雷达 (Radar)
+聚合 13+ AI 新闻源，智能去重、热度评分、三段式交互（简报→深度→创作）
+
+### 💎 模式 B：资产捕捉与共创 (Asset)
+灵感记录、实时修改捕捉、Diff 风格学习
+
+### ✍️ 模式 C：平台策略写作 (Platform Writing)
+小红书/公众号/X 三平台适配，5-Pass 质量检查，自动套用策略框架
+
+### 🌊 模式 D：头脑风暴 (Brainstorming)
+碎片整理、选题引导、灵魂随笔
+
+### 📊 模式 E：风格学习 (Profiling)
+数据加权风格建模、三层解析、去 AI 化改写验证
+
+### 🔍 模式 G：对标拆解 (Benchmark)
+逆向解剖外部内容、生成策略包、价值观冲突评分
+
+### 🔄 模式 H：内容重塑 (Remodeling)
+4:6 重构比、40% 个人资产强制注入、原创度预估
+
+### 📈 模式 I：发布追踪与数据进化 (Analytics)
+多平台 KPI 记录、爆款特征逆向、策略自动更新
+
+## 快速开始
 
 ### 安装
 
 ```bash
-npx skills add xhanzo-coder/creator-digital-twin-skill@creator-digital-twin -y
+# Claude Code
+git clone https://github.com/xhanzo-coder/creator-digital-twin-skill.git ~/.claude/skills/creator-digital-twin
+
+# Codex
+git clone https://github.com/xhanzo-coder/creator-digital-twin-skill.git ~/.codex/skills/creator-digital-twin
+
+# Gemini CLI
+git clone https://github.com/xhanzo-coder/creator-digital-twin-skill.git ~/.gemini/skills/creator-digital-twin
 ```
 
-### 首次运行
+### 初始化
 
-1. 初始化目录：`bash scripts/init.sh`
-2. 旧版升级（如有）：`python scripts/migrate_v3_to_v4.py`
-3. 做一次风格学习（模式 E）：提供 3-5 篇你满意的历史文章
-
-### 总流程图
-
-```mermaid
-flowchart TD
-    A[用户输入] --> B[Step 0 环境检查]
-    B --> C[人格状态检查<br/>system/profile.json]
-    C --> D[模式路由 A-H]
-    D --> E[执行对应模式]
-    E --> F[写回分层数据目录]
-    F --> G[下次对话复用]
+```bash
+cd ~/.claude/skills/creator-digital-twin
+python scripts/setup.py
 ```
 
-## 2. 一句话触发示例
-
-| 你对助手说 | 触发模式 | 结果 |
-|---|---|---|
-| 学习我的风格，文章在 `E:\\my_articles` | E | 更新 `system/profile.json` |
-| 今天有什么 AI 新闻，给我 3 个能写的题 | A | 返回选题包 |
-| 记个点子：AI Agent 在客服中的坑 | B | 写入 `assets/ideas/ideas.json` |
-| 发一篇小红书，主题 AI 自动化入门 | C | 产出平台适配稿件 |
-| 随便写一段我的周复盘 | D | 自由创作并过边界检查 |
-| 我改完了，学习我的改动 | F | 更新偏好规则 |
-| 学习这篇外部文章的方法论：`https://...` | G | 提炼技巧并评估兼容性 |
-| 把这篇文章改成我的风格发公众号 | H | 改写+版权核查 |
-
-## 3. 分层数据结构
-
-运行后在项目内维护 `./.writing-style/`：
-
-- `system/`：主档案、路由、安全策略
-- `memory/`：长期记忆（事件、观点、故事）
-- `persona/`：语气、说法边界、立场
-- `content/`：草稿、发布稿、二创稿
-- `assets/`：点子、概念、金句、案例
-- `analytics/`：表现数据、复盘、策略更新
-- `news_sources/`：新闻抓取与去重状态
-
-## 4. 模式详解与逻辑图
-
-### 模式 A：新闻雷达（AI News Radar）
-
-- **核心定位**：你的 24 小时 AI 情报员。不只是搬运新闻，而是基于你的“分身”视角进行**价值过滤**与**创作切入**。
-- **逻辑进化**：采用 **L1(简报) -> L2(深度) -> L3(创作)** 三段式递进，拒绝信息过载。
-- **核心特性**：
-  - **🔥 热度感知**：自动识别 12 个信源中的爆款趋势。
-  - **🚫 智能去重**：基于 `state.json` 自动剔除已读内容，支持增量更新提醒。
-  - **📅 日期锚点**：严格锁定用户指定日期的资讯，支持 24h 实时追踪。
-  - **📚 跨天搜索**：支持对数月前的历史情报进行关键词检索与二次创作。
-
-```mermaid
-flowchart TD
-    A1[多源抓取 scripts/fetch_news.py] --> A2[聚合与热度计算]
-    A2 --> A3[状态检查: 已读去重/增量识别]
-    A3 --> A4[L1: 情报简报 Intelligence Brief]
-    A4 -->|输入编号| A5[L2: 深度解读 Deep Dive]
-    A4 -->|输入 写+编号| A6[L3: 模式跳转 Transition]
-    A5 -->|选定角度| A6
-    A6 --> A7[跳转模式 C: 平台写作流]
-    
-    subgraph 历史管理
-    A8[跨天搜索 History Search] --> A9[翻阅 daily/ 历史库]
-    A9 --> A4
-    end
+或在 CLI 中：
+```
+/creator-digital-twin 初始化设置
 ```
 
-**交互示例**：
-- `今天有什么 AI 新闻？` -> 触发 L1 简报（带价值点与初步角度）。
-- `详细说说 3` -> 触发 L2 深度（抓取全文、提炼金句、生成 3 个精准切入点）。
-- `写 3` 或 `用角度 A 发小红书` -> 触发 L3 自动打包素材并进入 **模式 C** 正式写作。
-- `帮我搜搜上周关于 OpenAI 的新闻` -> 触发历史检索模式。
+## 目录结构
 
-### 模式 B：资产与记忆管理 (Asset & Memory Co-creation)
-
-- **核心定位**：数字分身的“外挂大脑”。不再是被动记录，而是通过**“灵感对撞”**将碎片点子转化为结构化资产。
-- **逻辑进化**：引入 **多维扫描 (Scanning) -> 对话共创 (Co-creation) -> 隐式捕捉 (Capture)** 流程。
-- **核心特性**：
-  - **🚀 冷启动友好**：即便无历史文章，也能自动调取学习过的方法论（如 `dontbesilent` 框架）进行对标讨论。
-  - **🧠 实时对冲**：自动关联最近 7 天的爆款新闻（模式 A），寻找时政热点与灵感的结合点。
-  - **🖋️ 隐式捕捉**：在对话探讨中自动识别金句、概念、案例，无需明确下令“记录”。
-  - **🔗 强关联索引**：存入时自动绑定相关的策略、立场和新闻，实现资产的“活化”。
-
-```mermaid
-flowchart TD
-    B1[输入想法/点子/金句] --> B2{全库扫描}
-    B2 -->|检索历史| B3[content/published/]
-    B2 -->|若无历史: 策略对标| B4[assets/strategies/ + profile]
-    B2 -->|新闻对冲| B5[news_sources/]
-    
-    B3 & B4 & B5 --> B6[AI 抛出: 探讨式建议/深化方向]
-    
-    B6 --> B7{产生价值碎片?}
-    B7 -- 点子/金句/概念/案例/经历 --> B8[AI 自动格式化并准备写入]
-    B8 --> B9[对话结束前一键确认]
-    B9 --> B10[写入资产库并更新索引]
+```
+.creator-space/
+├── system/               # 系统配置
+│   ├── profile.json      # 核心人格档案
+│   └── config.json       # 赛道偏好
+├── persona/              # 人格档案
+│   ├── voice_style.json  # 语气风格
+│   └── do_dont_say.json  # 表达偏好
+├── content/
+│   ├── drafts/           # 草稿目录
+│   └── published/        # 已发布
+├── assets/
+│   ├── ideas/            # 点子库
+│   ├── concepts/         # 概念库
+│   ├── quotes/           # 金句库
+│   ├── cases/            # 案例库
+│   └── strategies/       # 策略库
+├── analytics/            # 数据分析
+│   └── performance.jsonl # 发布表现
+└── news_sources/         # 新闻数据
+    └── daily/            # 每日情报
 ```
 
-**资产分类说明**：
+## 可选扩展
 
-| 类型 | 存储位置 | 作用 |
-| :--- | :--- | :--- |
-| **点子 (Ideas)** | `assets/ideas/` | 尚未成熟的选题、灵感片段、未来计划 |
-| **概念 (Concepts)** | `assets/concepts/` | 你独特的定义、方法论名词（如“生产型兴趣”） |
-| **金句 (Quotes)** | `assets/quotes/` | 具有穿透力的短句、对话中蹦出的精彩表达 |
-| **案例 (Cases)** | `assets/cases/` | 具体的例子、调研数据、成功/失败的事实 |
-| **经历 (Stories)** | `memory/stories.jsonl` | 个人故事、情绪、具体发生的事件 |
-| **观点 (Beliefs)** | `memory/beliefs.json` | 价值观的声明、对某事的深度看法 |
+本 skill 核心功能独立运行，可与以下 skills 配合实现完整工作流：
 
-**交互示例**：
-- `我觉得 AI 以后不是工具，是数字员工` -> AI 识别为观点，并关联相关新闻，引导你深化成金句或文章大纲。
-- `刚才经历了一次很不爽的沟通...` -> AI 识别为经历（Stories），帮你提炼出人际沟通的方法论（Concepts）。
-- `记个点子：用 AI 做个人知识库的 7 个坑` -> AI 对标你的写作风格，建议你发小红书并提供初步大纲。
+### 核心功能（无需扩展）
 
-### 模式 C：平台策略写作 (Strategy-Driven Writing)
+所有 8 个模式均可独立使用，生成 Markdown 草稿后用户可手动发布：
 
-- **核心定位**：基于**“策略对标”**与**“深度痛点挖掘”**的高质量内容工厂。
-- **流程进化**：引入 **策略锚点 (Anchoring) -> 痛点挖掘 (Research) -> 5-Pass 质量控制**。
-- **核心特性**：
-  - **📁 策略对标**：强制调取 `assets/strategies/`（如 `dontbesilent` 框架）和历史爆款指标。
-  - **🔍 深度挖掘**：全网检索话题误区、争议点及新手痛点，拒绝陈词滥调。
-  - **💎 素材注入**：动笔前先展示金句、案例和痛点清单。
-  - **🎨 可视化克隆**：**Pass 4** 强制展示从“AI 腔”到“分身语气”的修改过程。
+| 模式 | 功能 | 输出 |
+|------|------|------|
+| A | AI 新闻雷达 | 新闻简报 |
+| B | 资产捕捉 | 偏好更新 |
+| C | 平台写作 | Markdown 草稿 |
+| D | 头脑风暴 | 选题、灵感 |
+| E | 风格学习 | 人格档案 |
+| G | 对标拆解 | 策略文件 |
+| H | 内容重塑 | 改写草稿 |
+| I | 发布复盘 | 数据记录 |
 
-```mermaid
-flowchart TD
-    C1[输入主题/大纲 + 平台] --> C2[Step 1: 深度侦察]
-    C2 -->|检索| C3[assets/strategies/]
-    C2 -->|检索| C4[analytics/performance.jsonl]
-    C2 -->|WebSearch| C5[全网痛点与争议挖掘]
-    
-    C3 & C4 & C5 --> C6[Step 2: 输出 3 个带情报支持的角度]
-    
-    C6 -->|用户选定| C7[Step 3: 5-Pass 写作流]
-    subgraph 五遍检查机制
-    C7 --> C8[Pass 1: 策略蓝图/素材注入]
-    C8 --> C9[Pass 2: 逻辑初稿]
-    C9 --> C10[Pass 3: 事实/伦理核查]
-    C10 --> C11[Pass 4: 风格克隆与差异展示]
-    C11 --> C12[Pass 5: 平台视觉规范]
-    end
-    
-    C12 --> C13[归档至 content/drafts/]
+### 扩展 Skills（自动化最后一步）
+
+| Skill | 功能 | 安装后的增强 |
+|-------|------|------------|
+| `baoyu-xhs-images` | 小红书图片生成 | 自动生成图片提示词 |
+| `xiaohongshu-publisher` | 小红书发布 | 一键发布到小红书 |
+| `baoyu-cover-image` | 文章封面图 | 公众号/X 封面图 |
+| `baoyu-post-to-wechat` | 公众号发布 | 一键发布到公众号 |
+
+### 安装扩展 Skills
+
+所有扩展 Skills 都在同一个仓库中：
+
+```bash
+# 克隆 baoyu-skills 仓库
+cd ~/.claude/skills/
+git clone https://github.com/JimLiu/baoyu-skills.git
+
+# 安装后会包含以下 Skills：
+# - baoyu-xhs-images      (小红书图片生成)
+# - xiaohongshu-publisher (小红书发布)
+# - baoyu-cover-image     (封面图生成)
+# - baoyu-post-to-wechat  (公众号发布)
+# - baoyu-image-gen       (通用图片生成)
+# - baoyu-danger-gemini-web (Gemini 图片生成)
+# - ... 等
 ```
 
-**交互示例**：
-- `写个关于 AI 工作流的小红书` -> AI 检索痛点后建议你写“省钱方案”并展示 `dontbesilent` 的结构。
-- `帮我把这个大纲写成公众号` -> AI 自动补全金句并展示 Pass 4 的风格优化过程。
+或者单独安装需要的 Skill：
 
-### 模式 D：头脑风暴与灵魂随笔 (Brainstorming & Soul Flow)
+```bash
+# 进入 skills 目录
+cd ~/.claude/skills/
 
-- **核心定位**：你的**灵感收纳盒**与**头脑风暴伙伴**。
-- **逻辑进化**：引入 **碎片分类 (Sort) -> 深度建议 (Suggest) -> 选题引导 (Topic Hook) -> 灵魂随笔**。
-- **核心特性**：
-  - **🧩 灵感整理**：你丢出一堆碎片，AI 帮你分类（观点、素材、痛点），一目了然。
-  - **💡 启发式建议**：AI 主动抛出 2-3 个洞察点，帮你把小想法变成大策划。
-  - **📌 选题钩子**：整理完逻辑后，AI 会主动问你“哪个做成选题？”，引导进入创作闭环。
-  - **🎭 灵魂随笔**：确认方向后，执行记忆唤醒与“三遍灵魂检查”进行创作。
+# 克隆仓库到临时目录
+git clone https://github.com/JimLiu/baoyu-skills.git /tmp/baoyu-skills
 
-```mermaid
-flowchart TD
-    D1[输入碎片/想法/乱序输入] --> D2[Step 0: 头脑风暴与整理]
-    D2 --> D3[碎片分类: 观点/素材/痛点]
-    D3 --> D4[输出: 洞察建议与启发]
-    D4 --> D5{选题确认: 你想深入聊哪个?}
-    
-    D5 -->|继续聊| D2
-    D5 -->|进入创作| D6[Step 1-2: 情绪注入与记忆唤醒]
-    D6 --> D7[Step 3: 3-Pass 灵魂检查流]
-    
-    D7 --> D8[Step 4: 资产捕获与流转]
+# 只复制需要的 Skill
+cp -r /tmp/baoyu-skills/baoyu-xhs-images ./
+cp -r /tmp/baoyu-skills/xiaohongshu-publisher ./
+
+# 清理
+rm -rf /tmp/baoyu-skills
 ```
 
-**交互示例**：
-- `帮我理一下，最近对 AI 硬件和可穿戴设备有些乱七八糟的想法...` -> AI 分类整理碎片，给出 3 个独特的切入建议，并问你哪个想写成文。
-- `随便写点对 AI 未来的担忧` -> AI 唤醒记忆，生成带你个人风格的深度随笔。
+### 扩展 Skills 版本要求
 
-### 模式 E：数据驱动风格学习 (Data-Driven Style Learning)
+扩展 Skills 需要修改以支持 `.creator-space/` 目录结构。
 
-- **核心定位**：数字分身的“基因工程中心”。通过分析历史文章，提取并加权你的语气、策略与价值观。
-- **逻辑进化**：引入 **数据加权 (Weighting) -> 三层解析 (Triple-Parsing) -> 对标验证 (Verification)**。
-- **核心特性**：
-  - **📈 数据加权**：优先学习点赞/转发 Top 10% 的爆款文章，避开平庸模式。
-  - **🧬 三层解析**：从语言（语气/节奏）、策略（标题/钩子/框架）、灵魂（立场/禁忌）三个维度建模。
-  - **🎭 对标验证**：学完后立即现场展示“去 AI 化”改写，确保学习效果可见、可控。
-  - **💾 自动归档**：提取出的成功框架自动同步至 `assets/strategies/`。
+**安装后需要修改以下文件**（将 `.writing-style` 替换为 `.creator-space`）：
 
-```mermaid
-flowchart TD
-    E1[输入文章/目录] --> E2[Step 1: 数据对齐与加权]
-    E2 -->|匹配| E3[analytics/performance.jsonl]
-    E3 --> E4[Step 2: 三层深度解析]
-    subgraph 三层建模
-    E4 --> E5[L1: 语气与节奏]
-    E4 --> E6[L2: 标题/钩子/框架策略]
-    E4 --> E7[L3: 立场与禁忌]
-    end
-    
-    E5 & E6 & E7 --> E8[Step 3: 对标验证演示]
-    E8 --> E9{用户确认?}
-    E9 -->|确认| E10[Step 4: 更新档案与同步策略库]
+| Skill | 需修改的路径示例 |
+|-------|----------------|
+| baoyu-xhs-images | `--from-draft .creator-space/content/drafts/...` |
+| xiaohongshu-publisher | `.creator-space/content/drafts/...` |
+| baoyu-cover-image | `--from-draft .creator-space/content/drafts/...` |
+
+**快速修改方法**：
+
+```bash
+# 进入扩展 Skills 目录
+cd ~/.claude/skills/baoyu-skills
+
+# 批量替换路径
+sed -i 's/\.writing-style\/content\/drafts/\.creator-space\/content\/drafts/g' \
+  baoyu-xhs-images/SKILL.md \
+  xiaohongshu-publisher/SKILL.md \
+  baoyu-cover-image/SKILL.md
 ```
 
-**交互示例**：
-- `学习我的风格，文章在 E:\\my_articles` -> AI 结合你的发布数据，优先拆解爆款文，并向你展示学习后的改写效果。
-- `分析一下我最近写的这篇，看我的风格有变化吗` -> AI 识别风格漂移，并建议是否更新主档案。
+或手动编辑三个 `SKILL.md` 文件，将所有 `.writing-style/content/drafts` 替换为 `.creator-space/content/drafts`。
 
-### 模式 G：对标拆解与策略内化 (Benchmark & Scaling)
+### 工作流对比
 
-- **核心定位**：数字分身的“博主实验室”。逆向解剖外部内容，提取可以直接给模式 C 调用的创作框架。
-- **逻辑进化**：引入 **身份判别 (Routing) -> 三层解剖 (Deconstruction) -> 策略资产化 (Strategy Capture)**。
-- **核心特性**：
-  - **📐 三层解剖**：深度逆向工程标题/钩子、逻辑骨架（Skeleton）以及作者的独特叙事技巧。
-  - **⚖️ 兼容评估**：自动对比你的立场库（Stance），对学习到的策略进行“价值观兼容性”评分。
-  - **📁 策略产出**：直接生成 `.md` 格式的策略包存入 `assets/strategies/`。
-  - **🚀 创作预演**：学完后立即建议你用新策略基于库中点子进行创作。
-
-```mermaid
-flowchart TD
-    G1[输入外部内容/链接] --> G2{作者身份?}
-    G2 -->|我自己| G3[跳转模式 E: 风格学习]
-    G2 -->|别人/博主| G4[Step 2: 三层深度解剖]
-    
-    subgraph 三层解剖
-    G4 --> G5[L1: 标题与钩子策略]
-    G4 --> G6[L2: 逻辑骨架 Skeleton]
-    G4 --> G7[L3: 独特叙事技巧]
-    end
-    
-    G4 --> G8[Step 3: 价值观与兼容性评估]
-    G8 --> G9[Step 4: 写入 assets/strategies/ 并生成策略包]
-    G9 --> G10[模式 C 创作预演诱导]
+**无扩展 Skills**：
+```
+模式 C 写作 → Markdown 草稿 → 用户手动复制发布 → 模式 I 手动记录数据
 ```
 
-**交互示例**：
-- `拆解一下这篇文章的写作逻辑：https://...` -> AI 提取出“痛点反转框架”并将其存为新的创作策略。
-- `学习这个博主的方法论，看我能直接用吗` -> AI 分析博主策略与你人设的兼容度，并给出集成建议。
-
-### 模式 H：内容改写与多维重塑 (Content Rewrite & Repackage)
-
-- **核心定位**：数字分身的“创意炼金室”。将外部好内容通过你的资产库进行**高原创度重构**。
-- **逻辑进化**：引入 **4:6 黄金重构比 (Remodeling Ratio) -> 强制资产注入 (Internal Injection) -> 伦理锚点 (Ethics)**。
-- **核心特性**：
-  - **🛡️ 伦理安全**：自动识别原文版权风险，区分“致敬转发”与“去痕重构”。
-  - **💎 资产注入**：改写时强制从 `assets/` 和 `memory/` 中提取你自己的案例、故事和金句，彻底告别洗稿感。
-  - **📈 高原创度**：确保至少 40% 的内容为个人独有解读，60% 为精华重述。
-  - **📱 多端分身**：一键生成适配小红书、公众号、X 等不同平台的重塑版本。
-
-```mermaid
-flowchart TD
-    H1[输入原文/链接] --> H2[Step 1: 版权确认与重构程度]
-    H2 --> H3[Step 2: 信息分层提取]
-    
-    H3 --> H4[Step 3: 个人资产强制注入]
-    H4 -->|注入| H5[你的实战案例 assets/cases/]
-    H4 -->|注入| H6[你的个人故事 memory/stories/]
-    
-    H5 & H6 --> H7[Step 4: 4:6 黄金比例重塑生成]
-    H7 --> H8[Pass 1-6 质量检查流]
-    H8 --> H9[多平台适配版本产出]
+**有扩展 Skills**：
+```
+模式 C 写作 → 自动生成图片 → 一键发布 → 自动记录数据 → 模式 I 分析爆款
 ```
 
-**交互示例**：
-- `把这篇文章改写成我的风格发公众号：https://...` -> AI 提取核心逻辑，并注入你库里的相关案例，生成深度重塑稿。
-- `帮我包装一下这段观点，发小红书，先做版权核查` -> AI 评估风险后，建议采用“致敬模式”并配上你的个人点评。
+### 验证安装
 
-### 模式 I：发布追踪与数据进化 (Publish & Analytics)
+在 Claude Code 中触发 Skill，查看环境检查结果：
 
-- **核心定位**：数字分身的“进化推进器”。
-- **闭环逻辑**：通过**“发布存证 -> 数据更新 -> 爆款反向分析 -> 策略自动更新”**实现系统自进化。
-- **特性**：
-  - **📊 差异化指标**：根据平台（小红书/公众号/X）自动适配核心 KPI。
-  - **📈 权重计算**：自动对比历史平均数据，识别出真正的“爆款”内容。
-  - **🧬 策略反哺**：分析爆款标题、钩子和结构，自动更新至 `assets/strategies/`。
-
-```mermaid
-flowchart TD
-    I1[发布确认/链接提供] --> I2[模式 I: 发布存证]
-    I2 --> I3[analytics/performance.jsonl 增量记录]
-    I3 --> I4[后续: 数据指标录入/更新]
-    I4 --> I5{是否爆款?}
-    I5 -- 是 --> I6[爆款特征逆向工程]
-    I6 --> I7[自动更新策略库 assets/strategies/]
-    I7 --> I8[反哺模式 C: 下次创作更精准]
+```
+/creator-digital-twin
 ```
 
-**平台指标示例**：
-- **小红书**：阅读、点赞、**收藏（关键）**
-- **公众号**：阅读、**分享（关键）**、在看
-- **X**：展现量、点赞、**回复与转发（互动率）**
+输出示例：
+```
+✅ 环境检查通过
 
-**交互指令示例**：
-- `我刚发了小红书，标题是《...》，这是链接：...`
-- `帮我更新一下前天那篇文章的数据：阅读 5k，点赞 300`
-- `复盘一下我最近一个月的发布数据，看看哪个选题最好`
+核心功能：全部可用
+  ✅ 模式 A：AI 新闻雷达
+  ✅ 模式 B：资产捕捉与纠正学习
+  ...
 
-## 5. 常见对话模板（可直接复制）
+可选扩展 Skills：
+  ✅ baoyu-xhs-images      → 小红书图片生成（已安装）
+  ✅ xiaohongshu-publisher → 小红书发布（已安装）
+  ⚪ baoyu-cover-image     → 封面图生成（未安装）
+  ⚪ baoyu-post-to-wechat  → 公众号发布（未安装）
+```
 
-| 目标 | 你可以直接说 |
-|---|---|
-| 建立分身 | 学习我的风格，目录在 `E:\\xxx\\articles`，请更新我的 profile |
-| 选题策划 | 给我今天 AI 方向最值得写的 3 个选题，并推荐平台 |
-| 平台写作 | 发一篇公众号：主题是“AI 工作流”，先给我 3 个角度再写 |
-| 复盘学习 | 我修改了这篇文章，帮我学习我的修改偏好 |
-| 外部学习 | 学习这篇文章的方法论，但先评估是否和我的风格冲突 |
-| 改写发布 | 把这个链接改写成我的风格，发小红书，先做版权检查 |
+## 新闻源配置
 
-## 6. 发布到 GitHub 前检查
+默认支持 13+ AI 新闻源，可在 `config/sources.json` 中自定义：
 
-1. `SKILL.md` frontmatter 只保留 `name` 和 `description`
-2. 无 `__pycache__/` 与 `*.pyc`
-3. 关键脚本可运行或至少可解析
-4. `references/` 内链接路径有效
-5. 用一次完整对话测试 A/B/C/E/F/G/H 至少各 1 次
+- TLDR AI
+- Ben's Bites
+- The Rundown AI
+- The Neuron Daily
+- One Useful Thing
+- KDnuggets AI
+- Hugging Face Papers
+- 橘鸦AI早报
+- ...
+
+## 文档
+
+- [安装指南](INSTALLATION.md)
+- [模式详细文档](references/modes/)
+- [质量检查规范](references/quality-control.md)
+- [进化引擎原理](references/evolution-engine.md)
+
+## 许可证
+
+[MIT License](LICENSE)
+
+## 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 致谢
+
+本项目灵感来源于对内容创作流程的深度思考，感谢所有开源社区的贡献者。
